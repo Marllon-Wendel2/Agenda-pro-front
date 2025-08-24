@@ -1,10 +1,10 @@
-import { Breadcrumb, Layout, Menu, MenuProps } from "antd";
-import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons'
+import { Layout, Menu, MenuProps } from "antd";
+import { UserOutlined } from '@ant-design/icons'
 import { Header } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import Image from 'next/image';
 import React from "react";
-import Appointments from "./components/Agendamentos/Appointments";
+import AppointmentsList from "../Components/List/AppointmentsList";
 
 export default function Home() {
 
@@ -81,7 +81,7 @@ export default function Home() {
             boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
           }}
         >
-          <Appointments />
+          <AppointmentsList />
         </div>
       </Layout>
     </Layout>
