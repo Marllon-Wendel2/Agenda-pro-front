@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import 'antd/dist/reset.css'
 import { ConfigProvider } from "antd";
+import { AuthProvider } from "@/Contexts/authContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,6 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <AuthProvider>
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -40,5 +42,6 @@ export default function RootLayout({
         </ConfigProvider>
       </body>
     </html>
+    </AuthProvider>
   );
 }

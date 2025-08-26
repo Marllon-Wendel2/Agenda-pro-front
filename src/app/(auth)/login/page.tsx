@@ -4,25 +4,35 @@
 import { ConfigProvider, theme, Card, Form, Input, Button, Checkbox, Typography, Divider } from "antd";
 import Link from "next/link";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
-import { login } from "@/Services/authServices/authServices";
+// import { login } from "@/Services/authServices/authServices";
+
 import { LoginDto } from "@/Commons/Types/Auth";
+import { useAuth } from "@/Hooks/useAuth";
 
 const COLORS = {
-  white: "#FFFFFF",          // fundo principal
-  grayLight: "#F5F5F5",      // cards / bg secundário
-  grayMid: "#E0E0E0",        // bordas
-  blueSoft: "#A7C7E7",       // destaques
-  greenSoft: "#B8E0D2",      // sucesso / CTAs
-  orangeSoft: "#FFD8A8",     // alertas leves
-  textDark: "#333333",       // texto principal
+  white: "#FFFFFF",
+  grayLight: "#F5F5F5",
+  grayMid: "#E0E0E0",
+  blueSoft: "#A7C7E7",
+  greenSoft: "#B8E0D2",
+  orangeSoft: "#FFD8A8", 
+  textDark: "#333333",
 };
 
 export default function LoginPage() {
+  const { login } = useAuth();
 
   const handleSubmit = async (loginDto: LoginDto) => {
-    console.log("Email:", loginDto.email, "Senha:", loginDto.senha)
-    await login(loginDto);
-  }
+    try {
+      const data = await login(loginDto);
+      console.log("Logado com sucesso!", data);
+      // exemplo: redirecionar
+      // router.push("/dashboard");
+    } catch (err) {
+      console.error("Erro no login:", err);
+    }
+  };
+
   return (
     <ConfigProvider
       theme={{
