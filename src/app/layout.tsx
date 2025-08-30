@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import '@ant-design/v5-patch-for-react-19';
 import "./globals.css";
-import 'antd/dist/reset.css'
+import 'antd/dist/reset.css';
 import { ConfigProvider } from "antd";
 import { AuthProvider } from "@/Contexts/authContext";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,6 +44,7 @@ export default function RootLayout({
         </ConfigProvider>
       </body>
     </html>
+    <ToastContainer />
     </AuthProvider>
   );
 }

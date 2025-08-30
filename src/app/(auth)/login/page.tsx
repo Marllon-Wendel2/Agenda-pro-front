@@ -25,9 +25,6 @@ export default function LoginPage() {
   const handleSubmit = async (loginDto: LoginDto) => {
     try {
       const data = await login(loginDto);
-      console.log("Logado com sucesso!", data);
-      // exemplo: redirecionar
-      // router.push("/dashboard");
     } catch (err) {
       console.error("Erro no login:", err);
     }

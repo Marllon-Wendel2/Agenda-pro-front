@@ -5,6 +5,7 @@ import Sider from "antd/es/layout/Sider";
 import Image from 'next/image';
 import React from "react";
 import AppointmentsList from "../Components/List/AppointmentsList";
+import PrivateRoute from "@/Components/PrivateRoute";
 
 export default function Home() {
 
@@ -34,57 +35,57 @@ export default function Home() {
   },
 );
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-    <Header
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        backgroundColor: '#FFFFFF',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-        padding: '0 24px',
-      }}
-    >
-      <Image
-        src="/AgendaPro.png"
-        alt="Agenda Pro Logo"
-        width={150}
-        height={100}
-      />
-    </Header>
-     <Layout>
-      {/* MENU LATERAL */}
-      <Sider
+    <PrivateRoute>
+      <Layout style={{ minHeight: '100vh' }}>
+      <Header
         style={{
-          background: '#A7C7E7',
-          minHeight: 'calc(100vh - 64px)',
-          boxShadow: '2px 0 5px rgba(0,0,0,0.05)',
+          display: 'flex',
+          alignItems: 'center',
+          backgroundColor: '#FFFFFF',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          padding: '0 24px',
         }}
-        width={200}
       >
-        <Menu
-          mode="inline"
-          defaultSelectedKeys={['1']}
-          defaultOpenKeys={['sub1']}
-          style={{ height: '100%', background: '#A7C7E7', borderRight: 0 }}
-          items={items2}
+        <Image
+          src="/AgendaPro.png"
+          alt="Agenda Pro Logo"
+          width={150}
+          height={100}
         />
-      </Sider>
-
-      {/* ÁREA PRINCIPAL */}
-      <Layout style={{ padding: '10px 24px' }}>
-        <div
+      </Header>
+      <Layout>
+        <Sider
           style={{
-            padding: 24,
-            minHeight: 360,
-            background: '#FFFFFF',
-            borderRadius: '12px',
-            boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
+            background: '#A7C7E7',
+            minHeight: 'calc(100vh - 64px)',
+            boxShadow: '2px 0 5px rgba(0,0,0,0.05)',
           }}
+          width={200}
         >
-          <AppointmentsList />
-        </div>
+          <Menu
+            mode="inline"
+            defaultSelectedKeys={['1']}
+            defaultOpenKeys={['sub1']}
+            style={{ height: '100%', background: '#A7C7E7', borderRight: 0 }}
+            items={items2}
+          />
+        </Sider>
+
+        <Layout style={{ padding: '10px 24px' }}>
+          <div
+            style={{
+              padding: 24,
+              minHeight: 360,
+              background: '#FFFFFF',
+              borderRadius: '12px',
+              boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
+            }}
+          >
+            <AppointmentsList />
+          </div>
+        </Layout>
       </Layout>
-    </Layout>
-    </Layout>
+      </Layout>
+    </PrivateRoute>
   );
 }

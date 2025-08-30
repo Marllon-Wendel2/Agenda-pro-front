@@ -2,8 +2,10 @@
 import type { User } from "@/Commons/Types/User";
 import { createContext, useState } from "react";
 import { LoginDto } from "@/Commons/Types/Auth";
+import { useRouter } from "next/navigation";
 import mainApi from "@/Services/main";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 interface AuthContextType {
   token: string | null;
@@ -19,6 +21,8 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
+  const router = useRouter()
+
   async function login(loginDto: LoginDto) {
     try {
       const response = await mainApi.post('auth', loginDto)
@@ -32,7 +36,19 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
       setToken(result.token)
 
       Cookies.set("token", result.token, { expires: 7 });
+      toast.success('login realizado com sucesso', {
+        position: 'top-right',
+        autoClose: 2000,
+        closeOnClick: true
+      })
+
+      router.push('/')
       } catch (error) {
+        toast.error('login não realizado', {
+          position: 'top-right',
+          autoClose: 2000,
+          closeOnClick: true
+        })
           console.error(error)
       }
   }
