@@ -1,22 +1,29 @@
 'use client'
 
-import { useAuth } from "@/Hooks/useAuth";
+import { User } from "@/Commons/Types/User";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import Cookies from "js-cookie";
+import React, { useEffect, useState } from "react";
+import { Spin } from "antd";
 
 export default function PrivateRoute({ children }: { children: React.ReactNode }) {
-    const { user } = useAuth();
-    const router = useRouter()
+  const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
 
-    useEffect(() => {
-        if (!user) {
-            router.push('/login');
-        }
-    }, [user, router]);
+  useEffect(() => {
+    const token = Cookies.get("token");
+    const userCookie = Cookies.get("user");
 
-    if (!user) {
+    if (token && userCookie) {
+      setUser(JSON.parse(userCookie));
+    } else {
+      router.push("/login");
+    }
+  }, [router]);
+
+  if (!user) {
     return null;
   }
 
-    return <>{children}</>;
+  return <>{children}</>;
 }

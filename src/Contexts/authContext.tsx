@@ -29,13 +29,14 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
 
       const result: {
         token: string;
-        user: { nome: string; email: string; type: string };
+        user: { nome: string; email: string; type: string, id: string };
       } = response.data;
 
       setUser(result.user)
       setToken(result.token)
 
       Cookies.set("token", result.token, { expires: 7 });
+      Cookies.set("user", JSON.stringify(result.user), {expires: 7})
       toast.success('login realizado com sucesso', {
         position: 'top-right',
         autoClose: 2000,
