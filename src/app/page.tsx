@@ -1,3 +1,5 @@
+'use client'
+
 import { Layout, Menu, MenuProps } from "antd";
 import { UserOutlined } from '@ant-design/icons'
 import { Header } from "antd/es/layout/layout";
@@ -6,34 +8,73 @@ import Image from 'next/image';
 import React from "react";
 import AppointmentsList from "../Components/List/AppointmentsList";
 import PrivateRoute from "@/Components/PrivateRoute";
+import { useState } from "react";
+import { ClientsList } from "@/Components/List/ClientsList";
+import ServicesList from "@/Components/List/ServicesList";
 
 export default function Home() {
+  const [selected, setSelected] = useState("Agendamentos");
 
-  const items2: MenuProps['items'] = [UserOutlined].map(
+const items2: MenuProps['items'] = [UserOutlined].flatMap(
   (icon, index) => {
     const key = String(index + 1);
 
-    return {
-      key: `sub${key}`,
-      icon: React.createElement(icon),
-      label: `Serviços`,
-      children: [
-        {
-          key:`Agendamentos`,
-          label: 'Agendamentos',
-        },
-        {
-          key:`Clientes`,
-          label: 'Clientes',
-        },
-        {
-          key:`Serviços`,
-          label: 'Serviços',
-        },
-      ]
-    };
-  },
+    return [
+      {
+        key: `sub${key}`,
+        icon: React.createElement(icon),
+        label: `Listas`,
+        children: [
+          {
+            key: `Agendamentos`,
+            label: 'Agendamentos',
+          },
+          {
+            key: `Clientes`,
+            label: 'Clientes',
+          },
+          {
+            key: `Serviços`,
+            label: 'Serviços',
+          },
+        ]
+      },
+      {
+        key: `sub${key}2`,
+        icon: React.createElement(icon),
+        label: `Cadastrar`,
+        children: [
+          {
+            key: `cadastrarAgendamentos`,
+            label: 'Agendamentos',
+          },
+          {
+            key: `cadastrarClientes`,
+            label: 'Clientes',
+          },
+          {
+            key: `cadastrarServiços`,
+            label: 'Serviços',
+          },
+        ]
+      },
+    ];
+  }
 );
+
+    const renderContent = () => {
+    switch (selected) {
+      case "Agendamentos":
+        return <AppointmentsList />;
+      case "Clientes":
+        return <ClientsList />;
+      case "Serviços":
+        return <ServicesList />;
+      default:
+        return <AppointmentsList />;
+    }
+  };
+
   return (
     <PrivateRoute>
       <Layout style={{ minHeight: '100vh' }}>
@@ -68,6 +109,7 @@ export default function Home() {
             defaultOpenKeys={['sub1']}
             style={{ height: '100%', background: '#A7C7E7', borderRight: 0 }}
             items={items2}
+            onClick={(e) => setSelected(e.key)}
           />
         </Sider>
 
@@ -81,7 +123,7 @@ export default function Home() {
               boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
             }}
           >
-            <AppointmentsList />
+            {renderContent()}
           </div>
         </Layout>
       </Layout>

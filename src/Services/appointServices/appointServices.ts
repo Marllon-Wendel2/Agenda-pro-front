@@ -7,3 +7,11 @@ export async function getAppointmentByUser(userId: string, token: string) {
 
     return response.data;
 }
+
+export async function getClientByUser(userId: string, token: string) {
+    const response = await mainApi.get(`/appointment/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
+    return response.data;
+}

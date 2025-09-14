@@ -4,7 +4,6 @@ import { User } from "@/Commons/Types/User";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
-import { Spin } from "antd";
 
 export default function PrivateRoute({ children }: { children: React.ReactNode }) {
   const router = useRouter();

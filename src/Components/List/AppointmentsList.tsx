@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import type { Appointments } from "@/Commons/Types/Appointments";
 import { Spin, Table } from "antd";
 import { getAppointmentByUser } from "@/Services/appointServices/appointServices";
-import { useAuth } from "@/Hooks/useAuth";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { User } from "@/Commons/Types/User";
+import dayjs from "dayjs";
 
 export default function AppointmentsList (){
 const [appointments, setAppointments] = useState<Appointments[]>([]);
@@ -51,18 +51,23 @@ useEffect(() => {
 }, [user, token]);
 
 
-  const columns = [
-    {
-      title: 'Nome do Cliente',
-      dataIndex: 'client.name',
-      key: 'client.name',
-    },
-    {
-      title: 'Serviço',
-      dataIndex: 'service.name',
-      key: 'service.name'
-    }
-  ]
+    const columns = [
+      {
+        title: 'Nome do Cliente',
+        dataIndex: ['client', 'name'],
+      },
+      {
+        title: 'Serviço',
+        dataIndex: ['service', 'name'],
+        key: 'service.name',
+      },
+      {
+        title: "Horário",
+        dataIndex: "hour",
+        key: "hour",
+        render: (value: string) => dayjs(value).format("DD/MM/YY [às] HH:mm"),
+      },
+    ];
 
     if(loading) {
       <Spin />;
