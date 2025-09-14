@@ -5,4 +5,8 @@ export interface Services {
     duration: number;
     price: number;
     avaible: boolean;
+    owner: {
+        id: string;
+        nome:string;
+    }
 }

@@ -1,5 +1,70 @@
 'use client'
 
+import { useEffect, useState } from "react"
+import Cookies from "js-cookie";
+import { getClienstsByUser } from "@/Services/clientServices/clientService";
+import { Spin, Table } from "antd";
+import { User } from "@/Commons/Types/User";
+import { toast } from "react-toastify";
+
 export function ClientsList() {
-    return <p>Clients List</p>
+    const [clients, setClients] = useState([])
+    const [user, setUser] = useState<User | null>(null)
+    const [token, setToken] = useState<string>('')
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+      const newToken = Cookies.get('token')
+      const newUser = Cookies.get('user')
+
+      if(newToken && newUser) {
+        setUser(JSON.parse(newUser));
+        setToken(newToken ?? '')
+      }
+    }, [])
+
+    useEffect(() => {
+      const handleFetchAppointments = async () => {
+        try {
+          if (user) {
+            const newData = await getClienstsByUser(user?.id, token);
+            setClients(newData);
+            setLoading(false);
+          }
+        } catch (error) {
+          toast.error('Não foi possivel carregar os agendamentos.', {
+            position: 'top-right',
+            autoClose: 2000,
+            closeOnClick: true
+          });
+          console.log(error);
+        }
+      };
+    
+      handleFetchAppointments();
+    }, [user, token]);
+
+    const columns = [
+        {
+            title: 'Nome do Cliente',
+            dataIndex: 'name',
+        },
+        {
+            title: 'Telefone',
+            dataIndex: 'phone',
+        },
+        {
+            title: 'Total de Agendamentos',
+            dataIndex: 'appointment',
+            render: (appointments: []) => appointments.length
+        }
+    ];
+
+    
+    if(loading) {
+      <Spin />;
+    }
+    return(
+      <Table dataSource={clients} columns={columns} />
+    )
 }

@@ -31,11 +31,6 @@ useEffect(() => {
         const newData = await getAppointmentByUser(user?.id, token);
         setAppointments(newData);
         setLoading(false);
-        toast.success('Agendamentos carregados com sucesso!', {
-          position: 'top-right',
-          autoClose: 2000,
-          closeOnClick: true
-        });
       }
     } catch (error) {
       toast.error('Não foi possivel carregar os agendamentos.', {
