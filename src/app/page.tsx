@@ -12,6 +12,7 @@ import { ClientsList } from "@/Components/List/ClientsList";
 import ServicesList from "@/Components/List/ServicesList";
 import RegisterClient from "@/Components/Forms/RegisterClient";
 import RegisterServices from "@/Components/Forms/RefisterServices";
+import RegisterAppointmentForm from "@/Components/Forms/RegisterAppointments";
 
 export default function Home() {
   const [selected, setSelected] = useState("Agendamentos");
@@ -66,8 +67,10 @@ export default function Home() {
         return <ServicesList />;
       case "cadastrarClientes":
         return <RegisterClient/>
-      case 'cadastrarServiços':
+      case "cadastrarServiços":
         return <RegisterServices/>
+      case "cadastrarAgendamentos":
+        return <RegisterAppointmentForm />
       default:
         return <AppointmentsList />;
     }
