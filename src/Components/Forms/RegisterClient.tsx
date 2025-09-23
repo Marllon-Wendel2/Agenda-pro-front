@@ -8,12 +8,11 @@ import { toast } from "react-toastify";
 
 export default function RegisterClient() {
 const [form] = Form.useForm()
-  const [loading, setLoading] = useState(false);
+const [loading, setLoading] = useState(false);
 
 const onFinish = async (values: ClientFormDto) => {
   try {
     setLoading(true)
-    console.log("Valores recebidos:", values);
 
     const user = JSON.parse(Cookies.get("user")!);
     const token = Cookies.get("token")
