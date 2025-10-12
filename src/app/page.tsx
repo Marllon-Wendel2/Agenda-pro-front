@@ -1,7 +1,7 @@
 'use client'
 
 import { Layout, Menu, MenuProps, Drawer, Button } from "antd";
-import { UserOutlined, MenuOutlined } from '@ant-design/icons';
+import { UserOutlined, MenuOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Header } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import Image from 'next/image';
@@ -13,11 +13,18 @@ import ServicesList from "@/Components/List/ServicesList";
 import RegisterClient from "@/Components/Forms/RegisterClient";
 import RegisterServices from "@/Components/Forms/RefisterServices";
 import RegisterAppointmentForm from "@/Components/Forms/RegisterAppointments";
+import Cookies from "js-cookie";
+import { User } from "@/Commons/Types/User";
+import { useAuth } from "@/Hooks/useAuth";
 
 export default function Home() {
   const [selected, setSelected] = useState("Agendamentos");
   const [mobile, setMobile] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const user: User | null = JSON.parse(Cookies.get("user") || "null");
+
+  const { logout } = useAuth();
 
   useEffect(() => {
     const handleResize = () => {
@@ -27,6 +34,11 @@ export default function Home() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    const storedUser = Cookies.get("user");
+    console.log(storedUser);
+  }, [user]);
 
   const items2: MenuProps['items'] = [UserOutlined].flatMap(
     (icon, index) => {
@@ -75,13 +87,14 @@ export default function Home() {
         return <AppointmentsList />;
     }
   };
+ 
 
   const menu = (
     <Menu
       mode="inline"
       defaultSelectedKeys={['Agendamentos']}
       defaultOpenKeys={['sub1']}
-      style={{ height: '100%', background: '#A7C7E7', borderRight: 0 }}
+      style={{ height: '100%', background: user?.colors.secondary ||'#A7C7E7', color: user?.colors.text || '#000000', borderRight: 0 }}
       items={items2}
       onClick={(e) => {
         setSelected(e.key);
@@ -98,17 +111,28 @@ export default function Home() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: '#FFFFFF',
+            backgroundColor: user?.colors.primary ||'#FFFFFF',
             boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
             padding: '0 16px',
           }}
         >
           <Image
-            src="/AgendaPro.png"
+            src={user?.logoUrl || '/AgendaPro.png'}
             alt="Agenda Pro Logo"
             width={120}
             height={80}
           />
+                  <Button
+          type="text"
+          icon={<LogoutOutlined />}
+          onClick={logout}
+          style={{
+            color: user?.colors?.highlight || "#C89B3C",
+            fontWeight: 500,
+          }}
+        >
+          Sair
+        </Button>
           {mobile && (
             <Button
               type="text"

@@ -54,7 +54,30 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
       }
   }
 
-  async function logout() {}
+async function logout() {
+  try {
+    router.push("/login");
+    Cookies.remove("token");
+    Cookies.remove("user");
+
+    setToken(null);
+    setUser(null);
+
+    toast.info("Você saiu da conta!", {
+      position: "top-right",
+      autoClose: 2000,
+      closeOnClick: true,
+    });
+
+  } catch (error) {
+    console.error("Erro ao sair da conta:", error);
+    toast.error("Erro ao realizar logout!", {
+      position: "top-right",
+      autoClose: 2000,
+      closeOnClick: true,
+    });
+  }
+}
 
   async function register(loginDto:LoginDto) {}
 

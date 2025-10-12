@@ -19,7 +19,7 @@ const onFinish = async (values: ClientFormDto) => {
 
     const clientDto: ClientDto = {
       ...values,
-      user: user?.id,
+      userId: user?.id,
     };
 
     await createClient(clientDto, token);

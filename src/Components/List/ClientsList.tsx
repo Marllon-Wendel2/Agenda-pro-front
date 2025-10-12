@@ -65,6 +65,6 @@ export function ClientsList() {
       <Spin />;
     }
     return(
-      <Table dataSource={clients} columns={columns} />
+      <Table dataSource={clients} columns={columns} rowKey="id"/>
     )
 }

@@ -68,6 +68,6 @@ useEffect(() => {
       <Spin />;
     }
     return(
-      <Table dataSource={appointments} columns={columns} />
+      <Table dataSource={appointments} columns={columns} rowKey="id"/>
     )
 }

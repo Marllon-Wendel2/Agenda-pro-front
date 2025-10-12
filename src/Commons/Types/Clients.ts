@@ -14,5 +14,5 @@ export interface ClientFormDto {
 }
 
 export interface ClientDto extends ClientFormDto {
-  user: string;
+  userId: string;
 }

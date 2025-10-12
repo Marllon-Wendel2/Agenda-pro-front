@@ -6,6 +6,7 @@ import 'antd/dist/reset.css';
 import { ConfigProvider } from "antd";
 import { AuthProvider } from "@/Contexts/authContext";
 import { ToastContainer } from "react-toastify";
+import { cookies } from "next/headers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,18 +28,27 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = cookies();
+  const userCookie = cookieStore.get("user")?.value;
+
+  let user = null;
+    try {
+    user = userCookie ? JSON.parse(decodeURIComponent(userCookie)) : null;
+  } catch (error) {
+    console.error("Erro ao ler cookie user:", error);
+  }
+
+  // const themeTokens = {
+  //   colorText: user?.colors?.text || "#000000",
+  //   colorBgTextHover: user?.colors?.highlight || "#D3E3F5",
+  // };
   return (
     <AuthProvider>
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ConfigProvider
-          theme={{
-            token: {
-              colorPrimary: "#0070f3",
-            },
-          }}
+        <ConfigProvider 
         >
           {children}
         </ConfigProvider>

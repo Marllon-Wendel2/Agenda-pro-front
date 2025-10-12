@@ -66,6 +66,6 @@ export default function ServicesList() {
       <Spin />;
     }
     return(
-      <Table dataSource={services} columns={columns} />
+      <Table dataSource={services} columns={columns} rowKey="id"/>
     )
 }
