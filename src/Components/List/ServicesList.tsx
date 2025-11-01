@@ -6,6 +6,8 @@ import { getServicesByClient } from "@/Services/servicesServices/servicesService
 import { Spin, Table } from "antd"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
+import { ColumnsType } from "antd/es/table";
+import { Services } from "@/Commons/Types/Services";
 
 export default function ServicesList() {
     const [services, setServices] = useState([])
@@ -44,18 +46,21 @@ export default function ServicesList() {
           handleFetchAppointments();
         }, [user, token]);
 
-    const columns = [
+    const columns: ColumnsType<Services> = [
         {
             title: 'Nome do Serviço',
             dataIndex: 'name',
+            align: "center",
         },
         {
             title: 'Descrição',
+            align: "center",
             dataIndex: 'description',
         },
         {
             title: 'Preço',
             dataIndex: 'price',
+            align: "center",
             render: (price: number) => (
               <span>{price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
             ),

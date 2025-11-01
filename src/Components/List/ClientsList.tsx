@@ -6,6 +6,8 @@ import { getClienstsByUser } from "@/Services/clientServices/clientService";
 import { Spin, Table } from "antd";
 import { User } from "@/Commons/Types/User";
 import { toast } from "react-toastify";
+import { ColumnsType } from "antd/es/table";
+import { Client } from "@/Commons/Types/Clients";
 
 export function ClientsList() {
     const [clients, setClients] = useState([])
@@ -44,18 +46,21 @@ export function ClientsList() {
       handleFetchAppointments();
     }, [user, token]);
 
-    const columns = [
+    const columns: ColumnsType<Client> = [
         {
             title: 'Nome do Cliente',
             dataIndex: 'name',
+            align: "center",
         },
         {
             title: 'Telefone',
+            align: "center",
             dataIndex: 'phone',
         },
         {
             title: 'Total de Agendamentos',
             dataIndex: 'appointment',
+            align: "center",
             render: (appointments: []) => appointments.length
         }
     ];
